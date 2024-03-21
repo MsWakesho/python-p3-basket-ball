@@ -182,3 +182,88 @@ def game_dict():
             ]
         }
     }
+
+def num_points_per_game(player_name):
+    game = game_dict()
+    for team in ['home','away']:
+        for player in game[team]['players']:
+            if player['name'] == player_name:
+                return player['points_per_game']
+    return None
+
+def player_age(player_name):
+    game = game_dict()
+    for team in ['home','away']:
+        for player in game[team]['players']:
+            if player['name'] == player_name:
+                return player['age']    
+    return None
+
+def team_colors(team_name):
+    game = game_dict()
+    for team in ['home','away']:
+        if game[team]['team_name'] == team_name:
+            return game[team]['colors']
+    return None
+
+
+def team_names():
+     # Retrieve the game dictionary
+    game = game_dict()
+
+    # Extract and return the team names
+    team_names = [game["home"]["team_name"], game["away"]["team_name"]]
+    return team_names
+
+def player_numbers(team_name):
+      # Retrieve the game dictionary
+    game = game_dict()
+
+    # Initialize an empty list to store jersey numbers
+    jersey_numbers = []
+
+    # Iterate over home and away teams to find the team
+    for team in ["home", "away"]:
+        if game[team]["team_name"] == team_name:
+            # Extract jersey numbers from players in the team
+            jersey_numbers.extend([player["number"] for player in game[team]["players"]])
+
+    # Return the list of jersey numbers
+    return jersey_numbers
+
+def player_stats(player_name):
+     # Retrieve the game dictionary
+    game = game_dict()
+
+    # Iterate over home and away teams to find the player
+    for team in ["home", "away"]:
+        for player in game[team]["players"]:
+            if player["name"] == player_name:
+                # Return the player's stats as a dictionary
+                return player
+
+    # If player not found, return None
+    return None
+
+
+def average_rebounds_by_shoe_brand():
+    # Create a dictionary to store rebounds by shoe brand
+    rebounds_by_brand = {}
+
+    # Iterate through players in the game dictionary
+    for team in ["home", "away"]:
+        for player in game_dict()[team]["players"]:
+            shoe_brand = player["shoe_brand"]
+            rebounds = player["rebounds_per_game"]
+
+            # Check if shoe brand is already in the dictionary
+            if shoe_brand not in rebounds_by_brand:
+                rebounds_by_brand[shoe_brand] = []
+
+            # Append rebounds to the list for the shoe brand
+            rebounds_by_brand[shoe_brand].append(rebounds)
+
+    # Calculate average rebounds for each shoe brand
+    for brand, rebounds_list in rebounds_by_brand.items():
+        average_rebounds = sum(rebounds_list) / len(rebounds_list)
+        print(f"{brand}:  {average_rebounds:.2f}")
